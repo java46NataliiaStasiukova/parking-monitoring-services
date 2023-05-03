@@ -2,6 +2,7 @@ package parking.monitoring;
 
 import java.util.function.Consumer;
 
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -13,13 +14,14 @@ import parking.monitoring.service.CarAnalyzerService;
 
 @SpringBootApplication
 public class CarAnalyzerAppl {
-
+	
 	@Autowired
 	CarAnalyzerService carAnalyzerService;
 	@Autowired
 	StreamBridge streamBridge;
-	@Value("${app.cars.binding.name: car_data-out-0}")
+	@Value("${app.cars.binding.name:car-data-out-0}")
 	private String bindingName;
+	static Logger LOG = LoggerFactory.getLogger(CarAnalyzerAppl.class);
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CarAnalyzerAppl.class, args);
