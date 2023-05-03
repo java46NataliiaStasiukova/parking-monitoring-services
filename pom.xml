@@ -86,5 +86,7 @@
 	</dependencyManagement>
 	<modules>
 		<module>parking-monitoring-car-analyzer</module>
+		<module>parking-monitoring-fines-analyzer</module>
+		<module>parking-monitoring-pango-data-provider</module>
 	</modules>
 </project>
