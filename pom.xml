@@ -88,5 +88,7 @@
 		<module>parking-monitoring-car-analyzer</module>
 		<module>parking-monitoring-fines-analyzer</module>
 		<module>parking-monitoring-pango-data-provider</module>
+		<module>parking-monitoring-fines-validator</module>
+		<module>parking-monitoring-data-provider</module>
 	</modules>
 </project>
