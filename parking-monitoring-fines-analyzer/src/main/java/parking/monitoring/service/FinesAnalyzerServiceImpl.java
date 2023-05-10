@@ -36,7 +36,7 @@ public class FinesAnalyzerServiceImpl implements FinesAnalyzerService {
 	@Override
 	@Transactional
 	public ParkingFine processNewCarScan(NewCarScan car) {
-		LOG.debug("FINES-ANALYZER car: {}", car.toString());
+		//LOG.debug("FINES-ANALYZER car: {}", car.toString());
 		ParkingFine res = null;
 		LastCarPayment carPayment = paymentRepository.findById(car.carNumber).orElse(null);
 		if(carPayment == null) {

@@ -6,18 +6,6 @@ import jakarta.persistence.*;
 @Table(name="cars")
 public class Car {
 
-	@Id
-	long carNumber;
-	long driverId;
-	
-	public Car(long carNumber, long driverId) {
-		this.carNumber = carNumber;
-		this.driverId = driverId;
-	}
-
-	public Car() {
-		
-	}
 
 
 
