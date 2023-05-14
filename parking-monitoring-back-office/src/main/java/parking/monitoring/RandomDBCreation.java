@@ -62,7 +62,7 @@ public class RandomDBCreation {
 	private void addDriver() {
 		IntStream.range(0, driverNames.length)
 		.forEach(i -> {
-			service.addDriver(new DriverDto((i + 1), driverNames[i],
+			service.addDriver(new DriverDto((long)(i + 1), driverNames[i],
 					"driver" + (i + 1) + "@gmail.com",
 					LocalDate.now().minusYears(getRandomInt(minAge, maxAge)).toString()));
 		});
@@ -72,16 +72,16 @@ public class RandomDBCreation {
 	private void addCar() {
 		IntStream.range(1, driverNames.length + 1)
 		.forEach(i -> {
-			service.addCar(new CarDto(i, i));
+			service.addCar(new CarDto((long)i, (long)i));
 		});
 	}
 
 	private void addReport() {
 		IntStream.range(0, nReports)
 		.forEach(i -> {
-			service.addReport(new ReportDto((i + 1), (i + 1), parkingZone[getRandomInt(0, parkingZone.length - 1)],
+			service.addReport(new ReportDto((long)(i + 1), (long)(i + 1), parkingZone[getRandomInt(0, parkingZone.length - 1)],
 					LocalDateTime.now().minusDays(1).toString(),
-					getRandomInt(minCost, maxCost), "paid", driverNames[i]));
+					(double)getRandomInt(minCost, maxCost), "paid", driverNames[i]));
 		});
 	}
 

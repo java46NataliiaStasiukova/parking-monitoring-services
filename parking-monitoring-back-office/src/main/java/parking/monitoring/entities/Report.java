@@ -65,4 +65,8 @@ public class Report {
 		return name;
 	}
 
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 }

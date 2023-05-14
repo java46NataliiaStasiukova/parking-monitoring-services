@@ -30,4 +30,8 @@ public class Car {
 		return driver;
 	}
 
+	public void setDriver(Driver driver) {
+		this.driver = driver;
+	}
+
 }
