@@ -36,7 +36,6 @@ public class FinesAnalyzerServiceImpl implements FinesAnalyzerService {
 	@Override
 	@Transactional
 	public ParkingFine processNewCarScan(NewCarScan car) {
-		//LOG.debug("FINES-ANALYZER car: {}", car.toString());
 		ParkingFine res = null;
 		LastCarPayment carPayment = paymentRepository.findById(car.carNumber).orElse(null);
 		if(carPayment == null) {
@@ -60,8 +59,7 @@ public class FinesAnalyzerServiceImpl implements FinesAnalyzerService {
 			LOG.debug("*fines-analyzer* parking status is 'not-paid' for car: {}", car.carNumber);
 			res = new ParkingFine(car.carNumber, car.parkingZone, LocalDateTime.now());
 		}
-		//trace
-		LOG.debug("*fines-analyzer* last car payment: {} for car: {}", carPayment, car.carNumber);
+		LOG.debug("*fines-analyzer* last car payment status: {} for car: {}", carPayment.getStatus(), car.carNumber);
 		
 		return res;
 	}

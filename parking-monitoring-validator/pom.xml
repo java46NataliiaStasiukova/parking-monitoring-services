@@ -5,5 +5,17 @@
     <artifactId>parking-monitoring-services</artifactId>
     <version>0.0.1</version>
   </parent>
-  <artifactId>parking-monitoring-fines-validator</artifactId>
+  <artifactId>parking-monitoring-validator</artifactId>
+  
+      <dependencies>
+  		<dependency>
+		  <groupId>org.springframework.boot</groupId>
+		  <artifactId>spring-boot-starter-data-redis</artifactId>
+	  	</dependency>
+	  	<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+      </dependencies>
+      
 </project>

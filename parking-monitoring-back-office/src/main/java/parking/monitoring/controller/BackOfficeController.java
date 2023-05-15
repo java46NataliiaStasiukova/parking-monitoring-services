@@ -88,7 +88,7 @@ public class BackOfficeController {
 
 	//TOFIX
 	@GetMapping("/driver/{driverId}")
-	String getDriver(@PathVariable Long driverId) {
+	String getDriver(@PathVariable long driverId) {
 		String res = String.format("driver with id %s doesn't exist", driverId);
 		Driver driver = service.getDriver(driverId);
 		if(driver != null) {
@@ -101,7 +101,7 @@ public class BackOfficeController {
 
 	//TOFIX
 	@GetMapping("/car/{carNumber}")
-	String getCar(@PathVariable Long carNumber) {
+	String getCar(@PathVariable long carNumber) {
 		String res = String.format("car with number %s doesn't exist", carNumber);
 		Car car = service.getCar(carNumber);
 		if(car != null) {
@@ -113,7 +113,7 @@ public class BackOfficeController {
 
 	//TOFIX
 	@GetMapping("/report/{reportId}")
-	String getReport(@PathVariable Long reportId) {
+	String getReport(@PathVariable long reportId) {
 		String res = String.format("report with id %s doesn't exist", reportId);
 		Report report = service.getReport(reportId);
 		if(report != null) {
@@ -163,5 +163,11 @@ public class BackOfficeController {
 		List<ReportProjection> res = service.getAllReportsByMonthYear(year, month);
 		return res;
 	}
+	
+//	@GetMapping("/report/getByAge/{age}")
+//	List<ReportProjection> getByAge(@PathVariable int age){
+//		List<ReportProjection> res = service.getAllReportsByDriverAge(age);
+//		return res;
+//	}
 
 }

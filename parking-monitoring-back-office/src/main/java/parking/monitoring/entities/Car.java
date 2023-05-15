@@ -14,6 +14,7 @@ public class Car {
 	Driver driver;
 
 	public Car(long carNumber, Driver driver) {
+		super();
 		this.carNumber = carNumber;
 		this.driver = driver;
 	}

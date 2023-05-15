@@ -91,5 +91,7 @@
 		<module>parking-monitoring-fines-validator</module>
 		<module>parking-monitoring-data-provider</module>
 		<module>parking-monitoring-back-office</module>
+		<module>parking-monitoring-validator</module>
+		<module>parking-monitoring-fines-notifier</module>
 	</modules>
 </project>

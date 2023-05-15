@@ -1,5 +1,6 @@
 package parking.monitoring.service;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 
@@ -214,12 +215,10 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
 	}
 
-
-
 //	@Override
 //	public List<ReportProjection> getAllReportsByDriverAge(int age) {
-//		
-//		return null;
+//		int year = LocalDate.now().getYear() - age;
+//		return reportRepository.getReportsByAge(year - 1, year + 1);
 //	}
 
 

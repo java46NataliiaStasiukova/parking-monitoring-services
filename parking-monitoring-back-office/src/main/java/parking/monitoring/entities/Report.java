@@ -20,6 +20,7 @@ public class Report {
 	String name;
 
 	public Report(Car car, long driverNumber, String zone, String date, double cost, String status, String name) {
+		super();
 		this.car = car;
 		this.driverNumber = driverNumber;
 		this.zone = zone;
