@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import parking.monitoring.dto.CarDto;
@@ -26,7 +25,6 @@ import parking.monitoring.dto.ReportDto;
 import parking.monitoring.entities.Car;
 import parking.monitoring.entities.Driver;
 import parking.monitoring.entities.Report;
-import parking.monitoring.proj.DriverProjection;
 import parking.monitoring.proj.ReportProjection;
 import parking.monitoring.service.BackOfficeService;
 
@@ -43,21 +41,21 @@ public class BackOfficeController {
 	
 	@PostMapping("/driver")
 	DriverDto addDriver(@RequestBody @Valid DriverDto driver) {
-		LOG.debug("add: recived driver: {}", driver.toString());
+		LOG.debug("*back-office* add: received driver dto: {}", driver.toString());
 		service.addDriver(driver);
 		return driver;
 	}
 
 	@PostMapping("/car")
 	CarDto addCar(@RequestBody @Valid CarDto car) {
-		LOG.debug("add: recived car: {}", car.toString());
+		LOG.debug("*back-office* add: received car dto: {}", car.toString());
 		service.addCar(car);
 		return car;
 	}
 
 	@PostMapping("/report")
 	ReportDto addReport(@RequestBody @Valid ReportDto report) {
-		LOG.debug("add: recived report: {}", report.toString());
+		LOG.debug("a*back-office* dd: received report dto: {}", report.toString());
 		service.addReport(report);
 		return report;
 	}
@@ -65,7 +63,7 @@ public class BackOfficeController {
 	@PutMapping("/driver")
 	String updateDriver(@RequestParam("driverId") @NotNull Long driverId,
 			@RequestParam("email") @Email String email) {
-		LOG.debug("request for update: recived driver id: {}", driverId);
+		LOG.debug("*back-office* request for update: received driver id: {}", driverId);
 		service.updateDriver(driverId, email);
 		return String.format("driver with id %s was updated", driverId);
 	}
@@ -73,7 +71,7 @@ public class BackOfficeController {
 	@PutMapping("/car")
 	String updateCar(@RequestParam("carNumber") @NotNull Long carNumber,
 			@RequestParam @NotNull Long driverId) {
-		LOG.debug("request for update: recived car number: {}", carNumber);
+		LOG.debug("*back-office* request for update: received car number: {}", carNumber);
 		service.updateCar(carNumber, driverId);
 		return String.format("car with car number %s was updated", carNumber);
 	}
@@ -81,7 +79,7 @@ public class BackOfficeController {
 	@PutMapping("/report")
 	String updateReport(@RequestParam("reportId") @NotNull Long reportId,
 			@RequestParam("status") @Pattern(regexp = STATUS_REGEX, message = STATUS_MESSAGE) String status) {
-		LOG.debug("request for update: recived report id: {}", reportId);
+		LOG.debug("*back-office* request for update: received report id: {}", reportId);
 		service.updateReport(reportId, status);
 		return String.format("report with id %s was updated", reportId);
 	}
@@ -89,11 +87,12 @@ public class BackOfficeController {
 	//TOFIX
 	@GetMapping("/driver/{driverId}")
 	String getDriver(@PathVariable long driverId) {
+		LOG.debug("*back-office* request for getting driver by id: {}", driverId);
 		String res = String.format("driver with id %s doesn't exist", driverId);
 		Driver driver = service.getDriver(driverId);
 		if(driver != null) {
 			res = String.format("found driver: driver id: %s, name: %s, email: %s,"
-					+ "birthdate: %s", driver.getDriverId(), driver.getName(),
+					+ "birthdate: %s", driver.getId(), driver.getName(),
 					driver.getEmail(), driver.getBirthdate());
 		}
 		return res;
@@ -102,11 +101,12 @@ public class BackOfficeController {
 	//TOFIX
 	@GetMapping("/car/{carNumber}")
 	String getCar(@PathVariable long carNumber) {
+		LOG.debug("*back-office* request for getting car by car number: {}", carNumber);
 		String res = String.format("car with number %s doesn't exist", carNumber);
 		Car car = service.getCar(carNumber);
 		if(car != null) {
 			res = String.format("found car: car number: %s, driver id: %s",
-					car.getCarNumber(), car.getDriver().getDriverId());
+					car.getNumber(), car.getDriver().getId());
 		}
 		return res;
 	}
@@ -114,20 +114,35 @@ public class BackOfficeController {
 	//TOFIX
 	@GetMapping("/report/{reportId}")
 	String getReport(@PathVariable long reportId) {
+		LOG.debug("*back-office* request for getting report by id: {}", reportId);
 		String res = String.format("report with id %s doesn't exist", reportId);
 		Report report = service.getReport(reportId);
 		if(report != null) {
 			res = String.format("found report: report id: %s, car number: %s, "
 					+ "driver id: %s, parking zone: %s, date: %s, cost: %s, "
-					+ "status: %s, driver name: %s", reportId, report.getCar().getCarNumber(),
-					report.getDriverNumber(), report.getZone(), report.getDate(),
+					+ "status: %s, driver name: %s", reportId, report.getCar().getNumber(),
+					report.getId(), report.getZone(), report.getDate(),
 					report.getCost(), report.getStatus(), report.getName());
+		}
+		return res;
+	}
+	
+	@GetMapping("/driver/getByCar/{carNumber}")
+	String getDriverByCarNumber(@PathVariable long carNumber) {
+		LOG.debug("*back-office* request for getting driver by car number: {}", carNumber);
+		String res = String.format("driver not exist for car with number: %s", carNumber);
+		Driver driver = service.getDriverByCarNumber(carNumber);
+		if(driver != null) {
+			res = String.format("found for car with number: %s, driver: driver id: %s, name: %s, email: %s,"
+					+ "birthdate: %s", carNumber, driver.getId(), driver.getName(),
+					driver.getEmail(), driver.getBirthdate());
 		}
 		return res;
 	}
 
 	@DeleteMapping("/report/{reportId}")
 	String deleteReport(@PathVariable long reportId) {
+		LOG.debug("*back-office* request to delete report with id: {}", reportId);
 		String res = String.format("report with id: %s doesn't exist", reportId);
 		Report report = service.deleteReport(reportId);
 		if(report != null) {
@@ -138,6 +153,7 @@ public class BackOfficeController {
 	
 	@DeleteMapping("/car/{carNumber}")
 	String deleteCar(@PathVariable long carNumber) {
+		LOG.debug("*back-office* request to delete car with number: {}", carNumber);
 		String res = String.format("car with number: %s doesn't exist", carNumber);
 		Car car = service.deleteCar(carNumber);
 		if(car != null) {
@@ -148,6 +164,7 @@ public class BackOfficeController {
 	
 	@DeleteMapping("/driver/{driverId}")
 	String deleteDriver(@PathVariable long driverId) {
+		LOG.debug("*back-office* request to delete driver with id: {}", driverId);
 		String res = String.format("driver with id: %s doesn't exist", driverId);
 		Driver driver = service.deleteDriver(driverId);
 		if(driver != null) {
@@ -155,19 +172,49 @@ public class BackOfficeController {
 		}
 		return res;
 	}
-	
 
 	@GetMapping("/report/getByMonth/{year}/{month}")
 	List<ReportProjection> getReportsByMonth(@PathVariable int year,
 			@PathVariable String month) {
-		List<ReportProjection> res = service.getAllReportsByMonthYear(year, month);
-		return res;
+		LOG.debug("*back-office* request for getting reports by year: {} and month: {}", year, month);
+		return service.getAllReportsByMonthYear(year, month);
 	}
 	
-//	@GetMapping("/report/getByAge/{age}")
-//	List<ReportProjection> getByAge(@PathVariable int age){
-//		List<ReportProjection> res = service.getAllReportsByDriverAge(age);
-//		return res;
-//	}
+	@GetMapping("/report/getByAge/{age}")
+	List<ReportProjection> getByAge(@PathVariable int age){
+		LOG.debug("*back-office* request for getting reports by driver age: {}", age);
+		return service.getAllReportsByDriverAge(age);
+	}
+	
+	@GetMapping("/report/getByDriver/{driverId}")
+	List<ReportProjection> getReportsByDriverId(@PathVariable long driverId){
+		LOG.debug("*back-office* request for getting reports by driver id: {}", driverId);
+		return service.getAllReportsByDriverId(driverId);
+	}
+	
+	@GetMapping("/report/getByCar/{carNumber}")
+	List<ReportProjection> getReportsByCarNumber(@PathVariable long carNumber){
+		LOG.debug("*back-office* request for getting reports by car number: {}", carNumber);
+		return service.getAllReportsByCarNumber(carNumber);
+	}
+	
+	@GetMapping("/report/getCanceled")
+	List<ReportProjection> getCanceledReports(){
+		LOG.debug("*back-office* request for getting all canceled reports");
+		return service.getAllCanceledReports();
+	}
+	
+	@GetMapping("/report/getCanceled/{carNumber}")
+	List<ReportProjection> getCanceledReportsByCarNumber(@PathVariable long carNumber){
+		LOG.debug("*back-office* request for getting canceled reports by car number: {}", carNumber);
+		return service.getAllCanceledReportsByCarNumber(carNumber);
+	}
+	
+	@GetMapping("/report/getNotPaid/{carNumber}")
+	List<ReportProjection> getNotPaidReportsByCarNumber(@PathVariable long carNumber){
+		LOG.debug("*back-office* request for getting not paid reports by car number: {}", carNumber);
+		return service.getAllNotPaidReportsByCarNumber(carNumber);
+	}
+
 
 }

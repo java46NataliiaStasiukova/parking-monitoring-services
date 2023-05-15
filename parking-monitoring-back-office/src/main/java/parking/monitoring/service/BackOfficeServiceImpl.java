@@ -66,14 +66,14 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 			throw new IllegalStateException(String.format("Car with number: %s doesn't exist",
 					report.carNumber));
 		}
-		Driver driver = driverRepository.findById(report.driverNumber).orElse(null);
+		Driver driver = driverRepository.findById(report.driverId).orElse(null);
 		if(driver == null) {
 			LOG.warn("*back-office* driver with id: {} already exist", report.carNumber);
 			throw new IllegalStateException(String.format("Driver with id %s doesn't exist",
-					report.driverNumber));
+					report.driverId));
 		}
 		LOG.debug("*back-office* new report: {} was added", report.toString());
-		reportRepository.save(new Report(car, report.driverNumber, report.parkingZone,
+		reportRepository.save(new Report(car, report.driverId, report.parkingZone,
 				report.date, report.cost, report.status, driver.getName()));
 	}
 
@@ -88,7 +88,6 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		}
 		LOG.debug("*back-office* driver with id: {} was updated", driverId);
 		driver.setEmail(email);
-		//driverRepository.save(driver);
 	}
 
 	@Override
@@ -108,8 +107,6 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		}
 		LOG.debug("*back-office* car with number: {} was updated", carNumber);
 		car.setDriver(driver);
-		//carRepository.save(car);
-
 	}
 
 	@Override
@@ -123,8 +120,6 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		}
 		LOG.debug("*back-office* report with id: {} was updated", reportId);
 		report.setStatus(status);
-		//reportRepository.save(report);
-
 	}
 
 	@Override
@@ -189,13 +184,13 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		}
 		Car car = carRepository.findCarByDriverId(driverId);
 		if(car != null) {
-			List<Report> reports = reportRepository.findReportByCarNumber(car.getCarNumber());
+			List<Report> reports = reportRepository.findReportByCarNumber(car.getNumber());
 			if(reports.size() > 0) {
 				reports.forEach(reportRepository::delete);
-				LOG.warn("*back-office* reports for car with number: {} was deleted", car.getCarNumber());
+				LOG.warn("*back-office* reports for car with number: {} was deleted", car.getNumber());
 			}
-			carRepository.deleteById(car.getCarNumber());
-			LOG.warn("*back-office* car with number: {} was deleted for driver with id: {}", car.getCarNumber(), driverId);
+			carRepository.deleteById(car.getNumber());
+			LOG.warn("*back-office* car with number: {} was deleted for driver with id: {}", car.getNumber(), driverId);
 		}
 		driverRepository.deleteById(driverId);
 		LOG.debug("*back-office* driver with id: {} was deleted", driverId);
@@ -215,11 +210,49 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
 	}
 
-//	@Override
-//	public List<ReportProjection> getAllReportsByDriverAge(int age) {
-//		int year = LocalDate.now().getYear() - age;
-//		return reportRepository.getReportsByAge(year - 1, year + 1);
-//	}
+	@Override
+	public List<ReportProjection> getAllReportsByDriverAge(int age) {
+		int year = LocalDate.now().getYear() - age;
+		String from = LocalDate.of(year - 1, 12, 31).toString();
+		String to = LocalDate.of(year + 1, 1, 1).toString();
+		return reportRepository.getReportsByAge(from, to);
+	}
+
+	@Override
+	public List<ReportProjection> getAllReportsByDriverId(long driverId) {
+		
+		return reportRepository.fingAllReportsByDriverId(driverId);
+	}
+
+	@Override
+	public List<ReportProjection> getAllReportsByCarNumber(long carNumber) {
+		
+		return reportRepository.getReportsByCarNumber(carNumber);
+	}
+
+	@Override
+	public List<ReportProjection> getAllCanceledReports() {
+		
+		return reportRepository.getCanceledReports();
+	}
+
+	@Override
+	public List<ReportProjection> getAllCanceledReportsByCarNumber(long carNumber) {
+		
+		return reportRepository.getCanceledReportsByCarNumber(carNumber);
+	}
+
+	@Override
+	public List<ReportProjection> getAllNotPaidReportsByCarNumber(long carNumber) {
+		
+		return reportRepository.getNotPaidReportsByCarNumber(carNumber);
+	}
+
+	@Override
+	public Driver getDriverByCarNumber(long carNumber) {
+		
+		return driverRepository.findDriverByCarNumber(carNumber);
+	}
 
 
 

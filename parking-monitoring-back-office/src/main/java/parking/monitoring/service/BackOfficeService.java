@@ -35,6 +35,18 @@ public interface BackOfficeService {
 
 	List<ReportProjection> getAllReportsByMonthYear(int year, String month);
 
-	//List<ReportProjection> getAllReportsByDriverAge(int age);
+	List<ReportProjection> getAllReportsByDriverAge(int age);
+	
+	List<ReportProjection> getAllReportsByDriverId(long driverId);
+	
+	List<ReportProjection> getAllReportsByCarNumber(long carNumber);
+	
+	List<ReportProjection> getAllCanceledReports();
+	
+	List<ReportProjection> getAllCanceledReportsByCarNumber(long carNumber);
+	
+	List<ReportProjection> getAllNotPaidReportsByCarNumber(long carNumber);
+	
+	Driver getDriverByCarNumber(long carNumber);
 
 }

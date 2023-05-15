@@ -7,15 +7,14 @@ import jakarta.persistence.*;
 public class Car {
 
 	@Id
-	long carNumber;
+	long number;
 
 	@OneToOne
 	@JoinColumn(name = "driver_id")
 	Driver driver;
 
-	public Car(long carNumber, Driver driver) {
-		super();
-		this.carNumber = carNumber;
+	public Car(long number, Driver driver) {
+		this.number = number;
 		this.driver = driver;
 	}
 
@@ -23,8 +22,8 @@ public class Car {
 
 	}
 
-	public long getCarNumber() {
-		return carNumber;
+	public long getNumber() {
+		return number;
 	}
 
 	public Driver getDriver() {

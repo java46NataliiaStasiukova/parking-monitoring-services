@@ -12,17 +12,16 @@ public class Report {
 	@ManyToOne
 	@JoinColumn(name = "car_number")
 	Car car;
-	long driverNumber;
+	long driver;
 	String zone;
 	String date;
 	double cost;
 	String status;
 	String name;
 
-	public Report(Car car, long driverNumber, String zone, String date, double cost, String status, String name) {
-		super();
+	public Report(Car car, long driver, String zone, String date, double cost, String status, String name) {
 		this.car = car;
-		this.driverNumber = driverNumber;
+		this.driver = driver;
 		this.zone = zone;
 		this.date = date;
 		this.cost = cost;
@@ -42,8 +41,8 @@ public class Report {
 		return car;
 	}
 	
-	public long getDriverNumber() {
-		return driverNumber;
+	public long getDriver() {
+		return driver;
 	}
 
 	public String getZone() {

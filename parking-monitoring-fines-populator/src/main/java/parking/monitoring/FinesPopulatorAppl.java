@@ -49,15 +49,15 @@ public class FinesPopulatorAppl {
 			throw new IllegalStateException(String.format("Car with number: %s doesn't exist",
 					report.carNumber));
 		}
-		Driver driver = driverRepository.findById(report.driverNumber).orElse(null);
+		Driver driver = driverRepository.findById(report.driverId).orElse(null);
 		if(driver == null) {
 			LOG.warn("*back-office* driver with id: {} already exist", report.carNumber);
 			throw new IllegalStateException(String.format("Driver with id %s doesn't exist",
-					report.driverNumber));
+					report.driverId));
 		}
 		LOG.debug("*back-office* new report: {} was added", report.toString());
-//		reportRepository.save(new Report(car, report.driverNumber, report.parkingZone,
-//				report.date, report.cost, report.status, driver.getName()));	
+		reportRepository.save(new Report(car, report.driverId, report.parkingZone,
+				report.date, report.cost, report.status, driver.getName()));	
 	}
 
 }
