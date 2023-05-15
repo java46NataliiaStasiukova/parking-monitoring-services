@@ -93,5 +93,6 @@
 		<module>parking-monitoring-back-office</module>
 		<module>parking-monitoring-validator</module>
 		<module>parking-monitoring-fines-notifier</module>
+		<module>parking-monitoring-fines-populator</module>
 	</modules>
 </project>
