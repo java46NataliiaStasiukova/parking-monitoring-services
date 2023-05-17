@@ -10,10 +10,12 @@ public class LastScan {
 	
 	@Id
 	long carNumber;
+	String parkingZone;
 	LocalDateTime expiry;
 	
-	public LastScan(long carNumber, LocalDateTime expiry) {
+	public LastScan(long carNumber, String parkingZone, LocalDateTime expiry) {
 		this.carNumber = carNumber;
+		this.parkingZone = parkingZone;
 		this.expiry = expiry;
 	}
 	
@@ -23,6 +25,14 @@ public class LastScan {
 	
 	public long getCarNumber() {
 		return carNumber;
+	}
+	
+	public String getParkingZone() {
+		return parkingZone;
+	}
+	
+	public void setParkingZone(String parkingZone) {
+		this.parkingZone = parkingZone;
 	}
 	
 	public LocalDateTime getExpiry() {

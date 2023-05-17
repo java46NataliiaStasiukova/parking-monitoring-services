@@ -36,7 +36,10 @@ public class CarAnalyzerAppl {
 	void carScanAnalyzer(CarScan car) {
 		NewCarScan newCar = carAnalyzerService.processCarScan(car);
 		if(newCar != null) {
+			LOG.debug("*car-analyzer* sending new car scan: {}", newCar);
 			streamBridge.send(bindingName, newCar);
+		} else {
+			LOG.debug("*car-analyzer* recieved car scan: NULL");
 		}
 	}
 	
