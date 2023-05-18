@@ -73,7 +73,7 @@ class CarAnalyzerServiceTest {
 	
 	@Test 
 	void newParkingZoneTest() {
-		LOG.debug("**TEST: new time zone");
+		LOG.debug("**TEST: new parking zone");
 		assertEquals(newCarScanNewZone, service.processCarScan(carNewZone));
 	}
 	

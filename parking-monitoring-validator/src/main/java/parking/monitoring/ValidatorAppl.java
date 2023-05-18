@@ -37,7 +37,10 @@ public class ValidatorAppl {
 	void validator(ParkingFine parkingFine) {
 		ParkingReport report = validatorService.validate(parkingFine);
 		if(report != null) {
+			LOG.debug("*validator* sending new parking report for car: {}", report.toString());
 			streamBridge.send(bindingName, report);
+		} else {
+			LOG.debug("*validator* recieved parking report: NULL");
 		}
 	}
 
