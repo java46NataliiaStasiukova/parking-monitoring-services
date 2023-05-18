@@ -20,10 +20,11 @@ public class PangoDataProviderController {
 	@Autowired
 	PangoDataProviderService pangoDataProvider;
 	
-	@GetMapping("/{carNumber}")
-	CarPaymentData getCarPaymentData(@PathVariable long carNumber) {
-		LOG.debug("*pango-data-provider* request for getting payment data for car: {}", carNumber);
-		return pangoDataProvider.getCarPaymentData(carNumber);
+	@GetMapping("/{carNumber}/{parkingZone}")
+	CarPaymentData getCarPaymentData(@PathVariable long carNumber, @PathVariable String parkingZone) {
+		LOG.debug("*pango-data-provider* request for getting payment data for car: {} in parking zone: {}", 
+				carNumber, parkingZone);
+		return pangoDataProvider.getCarPaymentData(carNumber, parkingZone);
 	}
 	
 }

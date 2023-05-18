@@ -4,6 +4,6 @@ import parking.monitoring.CarPaymentData;
 
 public interface PangoDataProviderService {
 	
-	CarPaymentData getCarPaymentData(long carNumber);
+	CarPaymentData getCarPaymentData(long carNumber, String parkingZone);
 
 }

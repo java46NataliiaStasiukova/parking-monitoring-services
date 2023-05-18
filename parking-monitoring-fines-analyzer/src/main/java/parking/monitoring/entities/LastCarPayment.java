@@ -10,17 +10,27 @@ public class LastCarPayment {
 	
 	@Id
 	long carNumber;
+	String parkingZone;
 	String status;
 	LocalDateTime paidTill;
 	
-	public LastCarPayment(long carNumber, String status, LocalDateTime paidTill) {
+	public LastCarPayment(long carNumber, String parkingZone, String status, LocalDateTime paidTill) {
 		this.carNumber = carNumber;
+		this.parkingZone = parkingZone;
 		this.status = status;
 		this.paidTill = paidTill;
 	}
 	
 	public LastCarPayment() {
 		
+	}
+	
+	public String getParkingZone() {
+		return this.parkingZone;
+	}
+	
+	public void setParkingZone(String parkingZone) {
+		this.parkingZone = parkingZone;
 	}
 
 	public String getStatus() {

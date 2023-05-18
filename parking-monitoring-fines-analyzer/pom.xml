@@ -8,16 +8,14 @@
   <artifactId>parking-monitoring-fines-analyzer</artifactId>
   
       <dependencies>
-  	<dependency>
+  		<dependency>
 		  <groupId>org.springframework.boot</groupId>
 		  <artifactId>spring-boot-starter-data-redis</artifactId>
-	  </dependency>
-	  
+	    </dependency>
 	  	<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 		</dependency>
-
-      </dependencies>
+     </dependencies>
   
 </project>

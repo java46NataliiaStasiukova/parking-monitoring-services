@@ -14,9 +14,9 @@ public class PangoDataProviderServiceImpl implements PangoDataProviderService {
 	PangoImitatorService pangoService;
 	
 	@Override
-	public CarPaymentData getCarPaymentData(long carNumber) {
+	public CarPaymentData getCarPaymentData(long carNumber, String parkingZone) {
 		LOG.debug("*pango-data-provider* car number: {}", carNumber);
-		return pangoService.getData(carNumber);
+		return pangoService.getData(carNumber, parkingZone);
 	}
 
 }

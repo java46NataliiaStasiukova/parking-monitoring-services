@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import parking.monitoring.service.FinesAnalyzerService;
-import parking.monitoring.service.FinesAnalyzerServiceImpl;
 
 @SpringBootApplication
 public class FinesAnalyzerAppl {
@@ -38,7 +36,10 @@ public class FinesAnalyzerAppl {
 	void finesAnalyzer(NewCarScan car) {
 		ParkingFine parkingFine = finesAnalyzer.processNewCarScan(car);
 		if(parkingFine != null) {
+			LOG.debug("*fines-analyzer* sending new parking fine: {}", parkingFine);
 			streamBridge.send(bindingName, parkingFine);
+		} else {
+			LOG.debug("*car-analyzer* recieved parking fine: NULL");
 		}
 	}
 
