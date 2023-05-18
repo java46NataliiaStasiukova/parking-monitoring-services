@@ -14,10 +14,6 @@ public class Driver {
 	String email;
 	String birthdate;
 	
-//	@OneToOne(mappedBy = "driver", cascade = CascadeType.REMOVE)
-//	Car car;
-	
-
 	public Driver(long id, String name, String email, String birthdate) {
 		this.id = id;
 		this.name = name;
