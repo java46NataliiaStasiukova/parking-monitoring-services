@@ -48,7 +48,10 @@ public class ReportsNotifierAppl {
 		LOG.debug("*notifier* received new fine for car with number: {}", report.carNumber);
 		ReportDto reportDto = sendMail(report);
 		if(reportDto != null) {
+			LOG.debug("*notifier* sending new report dto: {}", reportDto);
 			streamBridge.send(bindingName, reportDto);
+		} else {
+			LOG.debug("*notifier* recieved report dto: NULL");
 		}
 	}
 
@@ -57,9 +60,11 @@ public class ReportsNotifierAppl {
 		NotificationData data = dataProvider.getNotificationData(report.carNumber);
 		if(data == null) {
 			LOG.warn("*notifier* no email found for driver");
+			data = new NotificationData();
+			data.carNumber = report.carNumber;
 			data.email = reportsServiceEmail;
-			data.name = "driver name was not found";
-			//TODO
+			data.name = "unknown driver";
+			data.driverId = 0;
 		} else {
 			//TODO: fine cost
 			res = new ReportDto(report.carNumber, data.driverId,
@@ -71,7 +76,7 @@ public class ReportsNotifierAppl {
 		String text = getMailText(data, res, report);
 		smm.setText(text);
 		mailSender.send(smm);
-		LOG.trace("sent text mail {}",text);
+		LOG.trace("*notifier* sent text mail {}",text);
 		return res;
 	}
 
@@ -80,8 +85,11 @@ public class ReportsNotifierAppl {
 				+ "that parked on parking zone: %s, date: %s", report.carNumber, 
 				report.parkingZone, LocalDateTime.now().toString());
 		if(data != null && dto != null) {
-			res = String.format("Dear %s\n You have recived new parking fine:\n%s",
+			res = String.format("Dear %s\nYou have recived new parking fine:\n%s",
 					data.name, dto.toString());
+		} else {
+			LOG.warn("*notifier* new report will not be stored into data base as driver for car: "
+					+ "{} was not found", report.carNumber);
 		}
 		return res;
 	}
