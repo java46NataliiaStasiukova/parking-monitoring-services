@@ -21,7 +21,7 @@ public class FinesAnalyzerAppl {
 	StreamBridge streamBridge;
 	@Value("${app.fines.binding.name:parking-fine-out-0}")
 	private String bindingName_1;
-	@Value("${app.fines.binding.name:payment-out-0}")
+	@Value("${app.payment.binding.name:payment-out-0}")
 	private String bindingName_2;
 
 	public static void main(String[] args) {

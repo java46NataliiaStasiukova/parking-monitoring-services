@@ -40,18 +40,26 @@ class FinesAnalyzerControllerTest {
 	String bindingNameProducer = "parkingPaymentConsumer-in-0";
 	@Value("${app.fines.binding.name}")
 	String bindingNameConsumer;
+	@Value("${app.payment.binding.name}")
+	String bindisgNameConsumerPayment;
+	//payment-out-0
 	private static final long NOT_FINED = 111;
 	private static final long FINED = 222;
+	private static final long NO_REDIS_DATA = 333;
 	
 	NewCarScan carWithPayment = new NewCarScan(NOT_FINED, "1");
 	NewCarScan carWithNoPayment = new NewCarScan(FINED, "1");
+	NewCarScan carNoRedisData = new NewCarScan(NO_REDIS_DATA, "1");
 	
 	ParkingFine parkingFine = new ParkingFine(FINED, "1");
+	PaymentData paymentData = new PaymentData(FINED, "1");
 	
 	@BeforeEach
 	void mockingService() {
 		when(service.processNewCarScan(carWithPayment)).thenReturn(null);
 		when(service.processNewCarScan(carWithNoPayment)).thenReturn(parkingFine);
+		when(service.processNewCarScan(carNoRedisData)).thenReturn(null);
+		when(service.checkNewCarScan(carNoRedisData)).thenReturn(paymentData);
 	}
 
 	@Test
@@ -71,6 +79,17 @@ class FinesAnalyzerControllerTest {
 		ObjectMapper mapper = new ObjectMapper();
 		ParkingFine fine = mapper.readValue(message.getPayload(), ParkingFine.class);
 		assertEquals(parkingFine, fine);
+	}
+	
+	@Test
+	void recivingCarWithNoRedisData() throws StreamReadException, DatabindException, IOException {
+		LOG.debug("***TEST: receiving car with no redis data");
+		producer.send(new GenericMessage<NewCarScan>(carNoRedisData), bindingNameProducer);
+		Message<byte[]> message = consumer.receive(10, bindisgNameConsumerPayment);
+		assertNotNull(message);
+		ObjectMapper mapper = new ObjectMapper();
+		PaymentData payment = mapper.readValue(message.getPayload(), PaymentData.class);
+		assertEquals(paymentData, payment);
 	}
 
 }
