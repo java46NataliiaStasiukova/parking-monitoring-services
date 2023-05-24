@@ -5,11 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class FinesProviderConfig {
-
+public class PaymentCheckerConfig {
+	
 	@Bean
 	RestTemplate getRestTemplate() {
 		
 		return new RestTemplate();
 	}
+
 }

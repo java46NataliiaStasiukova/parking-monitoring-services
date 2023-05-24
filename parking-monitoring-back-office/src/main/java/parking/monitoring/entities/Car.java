@@ -12,6 +12,9 @@ public class Car {
 	@OneToOne
 	@JoinColumn(name = "driver_id")
 	Driver driver;
+	
+//	@OneToMany(mappedBy = "car", cascade = CascadeType.REMOVE)
+//	List<Report> reports;
 
 	public Car(long number, Driver driver) {
 		this.number = number;

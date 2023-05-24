@@ -20,7 +20,9 @@ public class FinesAnalyzerAppl {
 	@Autowired
 	StreamBridge streamBridge;
 	@Value("${app.fines.binding.name:parking-fine-out-0}")
-	private String bindingName;
+	private String bindingName_1;
+	@Value("${app.fines.binding.name:payment-out-0}")
+	private String bindingName_2;
 
 	public static void main(String[] args) {
 		SpringApplication.run(FinesAnalyzerAppl.class, args);
@@ -37,9 +39,16 @@ public class FinesAnalyzerAppl {
 		ParkingFine parkingFine = finesAnalyzer.processNewCarScan(car);
 		if(parkingFine != null) {
 			LOG.debug("*fines-analyzer* sending new parking fine: {}", parkingFine);
-			streamBridge.send(bindingName, parkingFine);
+			streamBridge.send(bindingName_1, parkingFine);
 		} else {
 			LOG.debug("*car-analyzer* recieved parking fine: NULL");
+			PaymentData paymentData = finesAnalyzer.checkNewCarScan(car);
+			if(paymentData != null) {
+				LOG.debug("*fines-analyzer* sending new payment data: {}", paymentData);
+				streamBridge.send(bindingName_2, paymentData);
+			} else {
+				LOG.debug("*car-analyzer* recieved payment data: NULL");
+			}
 		}
 	}
 
