@@ -42,7 +42,6 @@ class FinesAnalyzerControllerTest {
 	String bindingNameConsumer;
 	@Value("${app.payment.binding.name}")
 	String bindisgNameConsumerPayment;
-	//payment-out-0
 	private static final long NOT_FINED = 111;
 	private static final long FINED = 222;
 	private static final long NO_REDIS_DATA = 333;

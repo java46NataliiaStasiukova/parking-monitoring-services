@@ -96,5 +96,6 @@
 		<module>parking-monitoring-fines-populator</module>
 		<module>parking-monitoring-zones-back-office</module>
 		<module>parking-monitoring-payment-checker</module>
+		<module>parking-monitoring-garbage-collector</module>
 	</modules>
 </project>

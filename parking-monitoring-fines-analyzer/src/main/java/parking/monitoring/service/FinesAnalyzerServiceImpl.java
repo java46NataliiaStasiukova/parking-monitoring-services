@@ -28,7 +28,7 @@ public class FinesAnalyzerServiceImpl implements FinesAnalyzerService {
 		if(carPayment == null) {
 			LOG.debug("*fines-analyzer* no payment information for car : {}", car.carNumber);
 		} else {
-			if(carPayment.getStatus().equals("paid") && isExpired(carPayment.getPaidTill())) {
+			if(isExpired(carPayment.getPaidTill())) {
 				LOG.debug("*fines-analyzer* parking payment is expired for car: {}", car.carNumber);
 				res = new ParkingFine(car.carNumber, car.parkingZone);
 				carPayment = new LastCarPayment(car.carNumber, car.parkingZone, "not-paid", carPayment.getPaidTill());
@@ -39,11 +39,9 @@ public class FinesAnalyzerServiceImpl implements FinesAnalyzerService {
 			} else if(!carPayment.getParkingZone().equals(car.parkingZone)) {
 				LOG.debug("*fines-analyzer* parking zone changed for car car: {} from: {} to: {}", 
 						car.carNumber, car.parkingZone, carPayment.getParkingZone());
-				res = new ParkingFine(car.carNumber, car.parkingZone);
-				carPayment = new LastCarPayment(car.carNumber, car.parkingZone, carPayment.getStatus(), carPayment.getPaidTill());
-				paymentRepository.save(carPayment);
+				paymentRepository.delete(carPayment);
 			}
-			LOG.debug("*fines-analyzer* last car payment status: {} for car: {}, till: {}", carPayment.getStatus(), car.carNumber, carPayment.getPaidTill());
+			LOG.debug("*fines-analyzer* last car payment status: {}", carPayment.toString());
 		}
 		return res;
 	}

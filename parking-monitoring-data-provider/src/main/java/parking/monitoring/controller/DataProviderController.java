@@ -10,7 +10,7 @@ import parking.monitoring.NotificationData;
 import parking.monitoring.service.DataProviderService;
 
 @RestController
-@RequestMapping("data")
+@RequestMapping("driver-data")
 public class DataProviderController {
 
 	@Autowired

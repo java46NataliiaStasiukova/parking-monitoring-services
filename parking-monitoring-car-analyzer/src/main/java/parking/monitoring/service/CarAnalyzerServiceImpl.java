@@ -30,17 +30,20 @@ public class CarAnalyzerServiceImpl implements CarAnalyzerService {
 			lastScan = new LastScan(car.carNumber, car.parkingZone, LocalDateTime.now().plusHours(1));
 			lastScanRepository.save(lastScan);
 			res = new NewCarScan(car.carNumber, car.parkingZone);
-		} else if(isExpired(lastScan)) {
-			LOG.debug("*car-analyzer* time expired for car with car number: {}", car.carNumber);
-			lastScan = new LastScan(car.carNumber, car.parkingZone, LocalDateTime.now().plusHours(1));
-			lastScanRepository.save(lastScan);
-			res = new NewCarScan(car.carNumber, car.parkingZone);
-		} else if(!lastScan.getParkingZone().equals(car.parkingZone)) {
-			LOG.debug("*car-analyzer* car: {} changed parking zone from: {} to: {}", car.carNumber, lastScan.getParkingZone(), car.parkingZone);
-			lastScan = new LastScan(car.carNumber, car.parkingZone, LocalDateTime.now().plusHours(1));
-			lastScanRepository.save(lastScan);
-			res = new NewCarScan(car.carNumber, car.parkingZone);
+		} else {
+			if(isExpired(lastScan)) {
+				LOG.debug("*car-analyzer* time expired for car with car number: {}", car.carNumber);
+				lastScan = new LastScan(car.carNumber, car.parkingZone, LocalDateTime.now().plusHours(1));
+				lastScanRepository.save(lastScan);
+				res = new NewCarScan(car.carNumber, car.parkingZone);
+			} else if(!lastScan.getParkingZone().equals(car.parkingZone)) {
+				LOG.debug("*car-analyzer* car: {} changed parking zone from: {} to: {}", car.carNumber, lastScan.getParkingZone(), car.parkingZone);
+				lastScan = new LastScan(car.carNumber, car.parkingZone, LocalDateTime.now().plusHours(1));
+				lastScanRepository.save(lastScan);
+				res = new NewCarScan(car.carNumber, car.parkingZone);
+			}
 		}
+			
 		LOG.debug("*car-analyzer* last scan for car with car number: {} and expiry time: {}", lastScan.getCarNumber(), lastScan.getExpiry());
 		
 		return res;

@@ -13,7 +13,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import parking.monitoring.CarPaymentData;
-import parking.monitoring.ParkingFine;
+import parking.monitoring.NewCarScan;
 import parking.monitoring.PaymentData;
 import parking.monitoring.entities.LastCarPayment;
 import parking.monitoring.repo.LastCarPaymentRepository;
@@ -37,35 +37,23 @@ public class PaymentCheckerServiceImpl implements PaymentCheckerService {
 	
 	
 	@Override
-	public ParkingFine checkPayment(PaymentData payment) {
-		ParkingFine res = null;
-		LastCarPayment carPayment = null;
+	public NewCarScan checkPayment(PaymentData payment) {
+		NewCarScan res = null;
 		CarPaymentData paymentData = getPaymentData(payment.carNumber, payment.parkingZone);
-		if(paymentData == null || paymentData.status.equals("not-paid")) {
-			LOG.warn("*payment-checker* parking not paid for car: {}", payment.carNumber);
-			res = new ParkingFine(payment.carNumber, payment.parkingZone);
-			carPayment = new LastCarPayment(payment.carNumber, payment.parkingZone, "not-paid", LocalDateTime.now());
-			paymentRepository.save(carPayment);
-		} else if(paymentData.status.equals("paid") && !isExpired(paymentData.paidTo)){
-			LOG.debug("*payment-checker* parking paid and time not expired for car: {}", payment.carNumber);
-			carPayment = new LastCarPayment(payment.carNumber, payment.parkingZone, "paid", paymentData.paidTo);
-			paymentRepository.save(carPayment);
-		} else if(!paymentData.parkingZone.equals(payment.parkingZone)) {
-			LOG.debug("*payment-checker* parking zone changed for car car: {} from: {} to: {}", 
-					payment.carNumber, payment.parkingZone, paymentData.parkingZone);
-			res = new ParkingFine(payment.carNumber, payment.parkingZone);
-			carPayment = new LastCarPayment(payment.carNumber, payment.parkingZone, paymentData.status, paymentData.paidTo);
-			paymentRepository.save(carPayment);
+		if(paymentData == null) {
+			LOG.warn("*payment-checker* no payment data for car: {}", payment.carNumber);
+			res = new NewCarScan(payment.carNumber, payment.parkingZone);
+			paymentRepository.save(new LastCarPayment(payment.carNumber, payment.parkingZone, "not-paid", LocalDateTime.now()));
 		} else {
-			LOG.debug("*payment-checker* time expired for car: {}", payment.carNumber);
-			res = new ParkingFine(payment.carNumber, payment.parkingZone);
-			carPayment = new LastCarPayment(payment.carNumber, payment.parkingZone, paymentData.status, paymentData.paidTo);
-			paymentRepository.save(carPayment);
+			paymentRepository.save(new LastCarPayment(payment.carNumber, paymentData.parkingZone, paymentData.status, paymentData.paidTo));
+			if(!paymentData.status.equals("paid")) {
+				res = new NewCarScan(payment.carNumber, payment.parkingZone);
+			}
 		}
 		return res;
 	}
 	
-	public CarPaymentData getPaymentData(long carNumber, String parkingZone) {
+	private CarPaymentData getPaymentData(long carNumber, String parkingZone) {
 	CarPaymentData paymentData = null;
 	try {
 		ResponseEntity<CarPaymentData> response = restTemplate.exchange(getFullUrl(carNumber, parkingZone),
@@ -83,10 +71,5 @@ public class PaymentCheckerServiceImpl implements PaymentCheckerService {
 		LOG.debug("*payment-checker* URL for communicating with pango data provider is {}", url);
 		return url;
 	}
-
-	private boolean isExpired(LocalDateTime expiredTime) {
 	
-		return expiredTime.compareTo(LocalDateTime.now()) < 0;
-	}
-
 }

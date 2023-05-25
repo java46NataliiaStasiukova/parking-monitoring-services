@@ -21,7 +21,7 @@ public class PaymentCheckerAppl {
 	PaymentCheckerService paymentService;
 	@Autowired
 	StreamBridge streamBridge;
-	@Value("${app.fines.binding.name:parking-fine-out-0}")
+	@Value("${app.fines.binding.name:car-data-out-0}")
 	private String bindingName;
 
 	public static void main(String[] args) {
@@ -35,10 +35,10 @@ public class PaymentCheckerAppl {
 	}
 	
 	void checkPayment(PaymentData data) {
-		ParkingFine fine = paymentService.checkPayment(data);
-		if(fine != null) {
-			LOG.debug("*payment-checker* sending new parking fine: {}", fine);
-			streamBridge.send(bindingName, fine);
+		NewCarScan car = paymentService.checkPayment(data);
+		if(car != null) {
+			LOG.debug("*payment-checker* sending new parking fine: {}", car);
+			streamBridge.send(bindingName, car);
 		} else {
 			LOG.debug("*car-analyzer* recieved parking fine: NULL");
 		}

@@ -31,7 +31,7 @@ public class ReportsNotifierAppl {
 	
 	@Autowired
 	StreamBridge streamBridge;
-	@Value("{app.final.reports.binding.name:fine-out-0}")
+	@Value("{app.reports.binding.name:report-out-0}")
 	private String bindingName;
 	
 	public static void main(String[] args) {

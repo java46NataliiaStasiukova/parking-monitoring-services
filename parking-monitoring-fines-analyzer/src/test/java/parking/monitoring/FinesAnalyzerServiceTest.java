@@ -54,7 +54,8 @@ class FinesAnalyzerServiceTest {
 	
 	NewCarScan carNewParkingZone = new NewCarScan(CAR_NEW_PARKING_ZONE, "2");
 	LastCarPayment lastPaymentNewZone = new LastCarPayment(CAR_NEW_PARKING_ZONE, "1", "paid", LocalDateTime.now().plusHours(1));
-	ParkingFine fineNewParkingZone = new ParkingFine(CAR_NEW_PARKING_ZONE, "2");
+	PaymentData paymentDataNewZone = new PaymentData(CAR_NEW_PARKING_ZONE, "2");
+	//ParkingFine fineNewParkingZone = new ParkingFine(CAR_NEW_PARKING_ZONE, "2");
 	
 	@BeforeEach
 	void redisMocking() throws Exception{
@@ -94,7 +95,9 @@ class FinesAnalyzerServiceTest {
 	@Test
 	void newParkingZoneTest() {
 		LOG.debug("***TEST: parking zone was changed for car");
-		assertEquals(fineNewParkingZone, service.processNewCarScan(carNewParkingZone));
+		assertNull(service.processNewCarScan(carNewParkingZone));
+		when(paymentRepository.findById(CAR_NEW_PARKING_ZONE)).thenReturn(Optional.ofNullable(null));
+		assertEquals(paymentDataNewZone, service.checkNewCarScan(carNewParkingZone));
 	} 
 
 }
