@@ -9,13 +9,8 @@
   
   <dependencies>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>parking.monitoring</groupId>
-			<artifactId>parking-monitoring-pango-imitator</artifactId>
-			<version>0.0.1</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
   </dependencies>
 </project>

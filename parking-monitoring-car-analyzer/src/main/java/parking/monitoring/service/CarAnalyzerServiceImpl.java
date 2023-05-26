@@ -22,7 +22,6 @@ public class CarAnalyzerServiceImpl implements CarAnalyzerService {
 	@Override
 	@Transactional
 	public NewCarScan processCarScan(CarScan car) {
-		//lastScanRepository.deleteAll();
 		NewCarScan res = null;
 		LastScan lastScan = lastScanRepository.findById(car.carNumber).orElse(null);
 		if(lastScan == null) {
@@ -42,16 +41,16 @@ public class CarAnalyzerServiceImpl implements CarAnalyzerService {
 				lastScanRepository.save(lastScan);
 				res = new NewCarScan(car.carNumber, car.parkingZone);
 			}
-		}
-			
-		LOG.debug("*car-analyzer* last scan for car with car number: {} and expiry time: {}", lastScan.getCarNumber(), lastScan.getExpiry());
+		}		
+		LOG.debug("*car-analyzer* last scan for car :{}, parking zone: {}, expiry: {}", 
+				lastScan.getCarNumber(), lastScan.getParkingZone(), lastScan.getExpiry());
 		
 		return res;
 	}
 
 	private boolean isExpired(LastScan carScan) {
 		
-		return carScan.getExpiry().compareTo(LocalDateTime.now()) > 0;
+		return carScan.getExpiry().compareTo(LocalDateTime.now()) < 0;
 	}
 
 }

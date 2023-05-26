@@ -19,7 +19,7 @@ public class ValidatorAppl {
 	ValidatorService validatorService;
 	@Autowired
 	StreamBridge streamBridge;
-	@Value("${app.validator.binding.name:fine-out-0}")
+	@Value("${app.validator.binding.name:report-out-0}")
 	private String bindingName;
 	
 	
