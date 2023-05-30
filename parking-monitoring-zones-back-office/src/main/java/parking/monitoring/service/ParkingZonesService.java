@@ -5,10 +5,12 @@ import parking.monitoring.entities.ParkingZone;
 
 public interface ParkingZonesService {
 	
-	ParkingZone addParkingZone(ParkingZoneDto parkingZoneDto);
+	ParkingZone addParkingZone(ParkingZoneDto parkingDto);
 	
 	ParkingZone getParkingZone(String parkingZone);
 	
 	ParkingZone deleteParkingZone(String parkingZone);
+	
+	ParkingZone updateParkingZone(ParkingZoneDto parkingDto);
 	
 }

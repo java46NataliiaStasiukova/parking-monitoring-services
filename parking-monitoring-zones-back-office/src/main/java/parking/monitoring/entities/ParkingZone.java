@@ -1,7 +1,5 @@
 package parking.monitoring.entities;
 
-import java.util.Objects;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -33,25 +31,6 @@ public class ParkingZone {
 						parkingZoneDto.address);
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(addres, city, fineCost, parkingZone);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ParkingZone other = (ParkingZone) obj;
-		return Objects.equals(addres, other.addres) && Objects.equals(city, other.city)
-				&& Double.doubleToLongBits(fineCost) == Double.doubleToLongBits(other.fineCost)
-				&& Objects.equals(parkingZone, other.parkingZone);
-	}
-
 	public double getFineCost() {
 		return fineCost;
 	}
@@ -70,6 +49,20 @@ public class ParkingZone {
 
 	public String getAddres() {
 		return addres;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setAddres(String addres) {
+		this.addres = addres;
+	}
+
+	@Override
+	public String toString() {
+		return "ParkingZone [parkingZone=" + parkingZone + ", fineCost=" + fineCost + ", city=" + city + ", addres="
+				+ addres + "]";
 	}
 
 
