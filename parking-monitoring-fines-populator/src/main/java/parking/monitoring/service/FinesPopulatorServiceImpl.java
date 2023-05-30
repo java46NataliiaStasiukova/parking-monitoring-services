@@ -29,17 +29,17 @@ public class FinesPopulatorServiceImpl implements FinesPopulatorService {
 	public void addReport(ReportDto report) {
 		Car car = carRepository.findById(report.carNumber).orElse(null);
 		if(car == null) {
-			LOG.warn("*back-office* car with number: {} not exist", report.carNumber);
+			LOG.warn("*populator* car with number: {} not exist", report.carNumber);
 			throw new IllegalStateException(String.format("Car with number: %s doesn't exist",
 					report.carNumber));
 		}
 		Driver driver = driverRepository.findById(report.driverId).orElse(null);
 		if(driver == null) {
-			LOG.warn("*back-office* driver with id: {} already exist", report.carNumber);
+			LOG.warn("*populator* driver with id: {} already exist", report.carNumber);
 			throw new IllegalStateException(String.format("Driver with id %s doesn't exist",
 					report.driverId));
 		}
-		LOG.debug("*back-office* new report: {} was added", report.toString());
+		LOG.debug("*populator* new report: {} was added", report.toString());
 		reportRepository.save(new Report(car, report.driverId, report.parkingZone,
 				report.date, report.cost, report.status, driver.getName()));	
 

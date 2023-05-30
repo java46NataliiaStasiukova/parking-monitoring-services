@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import parking.monitoring.dto.ParkingZoneDto;
 import parking.monitoring.dto.ReportDto;
 import parking.monitoring.service.NotificationDataProvider;
 
@@ -58,6 +59,11 @@ public class ReportsNotifierAppl {
 	private ReportDto sendMail(ParkingReport report) {
 		ReportDto res = null;
 		NotificationData data = dataProvider.getNotificationData(report.carNumber);
+		ParkingZoneDto parkingData = dataProvider.getParkingZoneData(report.parkingZone);
+		if(parkingData == null) {
+			parkingData = new ParkingZoneDto();
+			parkingData.fineCost = 500.0;
+		}
 		if(data == null) {
 			LOG.warn("*notifier* no email found for driver");
 			data = new NotificationData();
@@ -66,9 +72,8 @@ public class ReportsNotifierAppl {
 			data.name = "unknown driver";
 			data.driverId = 0;
 		} else {
-			//TODO: fine cost
 			res = new ReportDto(report.carNumber, data.driverId,
-					report.parkingZone, LocalDateTime.now().toString(), 250.0, "not-paid", data.name);
+					report.parkingZone, LocalDateTime.now().toString(), parkingData.fineCost, "not-paid", data.name);
 		}
 		SimpleMailMessage smm = new SimpleMailMessage();
 		smm.setTo(data.email);
