@@ -39,6 +39,8 @@ public class RandomDBCreation {
 	private int minAge;
 	@Value("${app.max.driver.age:65}")
 	private int maxAge;
+	@Value("${app.drivers.amount:100}")
+	private int nDrivers;
 
 	String driverNames[] = {"Abraham", "Sarah",
 			"Itshak", "Rahel", "Asaf", "Yacob", "Rivka",
@@ -53,16 +55,16 @@ public class RandomDBCreation {
 			addCar();
 			addReport();
 //			addParkingZone();
-			LOG.info("*random db* new db was created with reports amount: {}", nReports);
+			LOG.info("*random db* new db was created with drivers: {}, reports amount: {}", nDrivers, nReports);
 		} else {
 			LOG.warn("*random db* new db was not created");
 		}
 	}
 
 	private void addDriver() {
-		IntStream.range(0, driverNames.length)
+		IntStream.range(0, nDrivers)
 		.forEach(i -> {
-			service.addDriver(new DriverDto((long)(i + 1), driverNames[i],
+			service.addDriver(new DriverDto((long)(i + 1), driverNames[getRandomInt(0, driverNames.length - 1)],
 					"driver" + (i + 1) + "@gmail.com",
 					LocalDate.now().minusYears(getRandomInt(minAge, maxAge)).toString()));
 		});
@@ -70,7 +72,7 @@ public class RandomDBCreation {
 	}
 
 	private void addCar() {
-		IntStream.range(1, driverNames.length + 1)
+		IntStream.range(1, nDrivers + 1)
 		.forEach(i -> {
 			service.addCar(new CarDto((long)i, (long)i));
 		});

@@ -34,7 +34,7 @@ public class NotificationDataProviderImpl implements NotificationDataProvider {
 					restTemplate.exchange(getFullUrl(carNumber),
 							HttpMethod.GET, null, NotificationData.class);
 			notificationData =  response.getBody();
-			LOG.debug("driver's email and name received from data provider: {}, {}", notificationData.email, notificationData.name);
+			LOG.debug("notification data received from data provider: {}", notificationData.toString());
 		} catch (RestClientException e) {
 			LOG.error("Notification Data Provider has not sent the data; reason: {}",e.getMessage());
 		}

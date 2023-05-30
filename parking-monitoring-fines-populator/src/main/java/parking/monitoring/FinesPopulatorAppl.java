@@ -9,14 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import parking.monitoring.dto.ReportDto;
-import parking.monitoring.entities.Car;
-import parking.monitoring.entities.Driver;
-import parking.monitoring.entities.Report;
-import parking.monitoring.repo.CarRepository;
-import parking.monitoring.repo.DriverRepository;
-import parking.monitoring.repo.ReportRepository;
 import parking.monitoring.service.FinesPopulatorService;
-import parking.monitoring.service.FinesPopulatorServiceImpl;
 
 @SpringBootApplication
 public class FinesPopulatorAppl {
@@ -37,7 +30,7 @@ public class FinesPopulatorAppl {
 	}
 	
 	void getReport(ReportDto report) {
-		LOG.debug("*populator* received report of car with number: {}", report.carNumber);
+		LOG.debug("*populator* received report dto for car: {}", report.toString());
 		service.addReport(report);
 	}
 
