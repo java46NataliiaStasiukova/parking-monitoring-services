@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import jakarta.annotation.PreDestroy;
 import parking.monitoring.dto.ReportDto;
 import parking.monitoring.service.FinesPopulatorService;
 
@@ -32,6 +33,11 @@ public class FinesPopulatorAppl {
 	void getReport(ReportDto report) {
 		LOG.debug("*populator* received report dto for car: {}", report.toString());
 		service.addReport(report);
+	}
+	
+	@PreDestroy
+	void preDestroy() {
+		System.out.println("FinesPopulatorAppl - shutdown has been performed");
 	}
 
 

@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 
+import jakarta.annotation.PreDestroy;
 import parking.monitoring.service.ValidatorService;
 
 @SpringBootApplication
@@ -42,6 +43,11 @@ public class ValidatorAppl {
 		} else {
 			LOG.debug("*validator* recieved parking report: NULL");
 		}
+	}
+	
+	@PreDestroy
+	void preDestroy() {
+		System.out.println("ValidatorAppl - shutdown has been performed");
 	}
 
 }

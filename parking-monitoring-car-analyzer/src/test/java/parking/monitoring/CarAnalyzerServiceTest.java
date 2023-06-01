@@ -41,14 +41,14 @@ class CarAnalyzerServiceTest {
 	NewCarScan newCarScanNoRedis = new NewCarScan(CAR_NO_REDIS_DATA, "1");
 	
 	CarScan carNoAction = new CarScan(CAR_NO_ACTION, "1");
-	LastScan lastScanNoAction = new LastScan(CAR_NO_ACTION, "1", LocalDateTime.now().minusMinutes(10));
+	LastScan lastScanNoAction = new LastScan(CAR_NO_ACTION, "1", LocalDateTime.now().plusMinutes(10));
 	
 	CarScan carNewZone = new CarScan(CAR_NEW_PARKING_ZONE, "2");
 	LastScan lastScanNewZone = new LastScan(CAR_NEW_PARKING_ZONE, "1", LocalDateTime.now());
 	NewCarScan newCarScanNewZone = new NewCarScan(CAR_NEW_PARKING_ZONE, "2");
 	
 	CarScan carExpiredTime = new CarScan(CAR_EXPIRED_TIME, "1");
-	LastScan lastScanExpiredTime = new LastScan(CAR_EXPIRED_TIME, "1", LocalDateTime.now().plusHours(2));
+	LastScan lastScanExpiredTime = new LastScan(CAR_EXPIRED_TIME, "1", LocalDateTime.now().minusMinutes(10));
 	NewCarScan newCarScanExpiredTime = new NewCarScan(CAR_EXPIRED_TIME, "1");
 
 	@BeforeEach

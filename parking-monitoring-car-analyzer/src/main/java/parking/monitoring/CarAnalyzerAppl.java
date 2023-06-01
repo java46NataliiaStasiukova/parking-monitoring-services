@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 
+import jakarta.annotation.PreDestroy;
 import parking.monitoring.service.CarAnalyzerService;
 
 @SpringBootApplication
@@ -41,6 +42,11 @@ public class CarAnalyzerAppl {
 		} else {
 			LOG.debug("*car-analyzer* recieved car scan: NULL");
 		}
+	}
+	
+	@PreDestroy
+	void preDestroy() {
+		System.out.println("CarAnalizerAppl - shutdown has been performed");
 	}
 	
 

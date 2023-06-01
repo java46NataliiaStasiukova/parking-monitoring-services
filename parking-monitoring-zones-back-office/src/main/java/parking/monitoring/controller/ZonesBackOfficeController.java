@@ -64,7 +64,7 @@ public class ZonesBackOfficeController {
 	@PutMapping
 	String updateParkingZone(@RequestBody @Valid ParkingZoneDto dto) {
 		LOG.debug("*zones-back-office* request for updating parking zone with id: {}", dto.parkingZone);
-		String res = String.format("parking zone with id: %s doesn't exust", dto.parkingZone);
+		String res = String.format("parking zone with id: %s doesn't exist", dto.parkingZone);
 		ParkingZone zone = service.updateParkingZone(dto);
 		if(zone != null) {
 			res = String.format("parking zone with id: %s was updated", dto.parkingZone);

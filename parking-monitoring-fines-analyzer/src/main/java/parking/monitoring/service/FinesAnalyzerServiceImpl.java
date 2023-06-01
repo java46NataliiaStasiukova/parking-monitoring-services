@@ -43,6 +43,7 @@ public class FinesAnalyzerServiceImpl implements FinesAnalyzerService {
 			LOG.debug("*fines-analyzer* no payment information for car : {}", car.carNumber);
 			paymentData = getPaymentData(car.carNumber, car.parkingZone);
 			if(paymentData == null) {
+				LOG.debug("*fines-analyzer* no payment data recived from pango service pango service for car : {}", car.carNumber);
 				carPayment = new LastCarPayment(car.carNumber, car.parkingZone, "not-paid", LocalDateTime.now());
 				paymentRepository.save(carPayment);
 				return new ParkingFine(car.carNumber, car.parkingZone);

@@ -18,9 +18,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class DataProviderTest {
+class DataProviderPostgresTest {
 	
-	static Logger LOG = LoggerFactory.getLogger(DataProviderTest.class);
+	static Logger LOG = LoggerFactory.getLogger(DataProviderPostgresTest.class);
 	@Autowired
 	MockMvc mockMvc;
 	
@@ -30,7 +30,7 @@ class DataProviderTest {
 	@Test
 	@Sql(scripts = {"DriversCars.sql"})
 	void dataProviderTest() throws Exception {
-		String jsonResponse = mockMvc.perform(get("/data/" + CAR_NUMBER_1))
+		String jsonResponse = mockMvc.perform(get("/driver-data/" + CAR_NUMBER_1))
 				.andExpect(status().isOk()).andReturn().getResponse()
 				.getContentAsString();
 		ObjectMapper mapper = new ObjectMapper();
@@ -43,7 +43,7 @@ class DataProviderTest {
 	}
 	
 	void dataProviderTest2() throws Exception {
-		String jsonResponse = mockMvc.perform(get("/data/" + CAR_NUMBER_1))
+		String jsonResponse = mockMvc.perform(get("/driver-data/" + CAR_NUMBER_1))
 				.andExpect(status().isOk()).andReturn().getResponse()
 				.getContentAsString();
 		ObjectMapper mapper = new ObjectMapper();

@@ -39,6 +39,7 @@ class FinesAnalyzerServiceTest {
 	private static final long CAR_NEW_PARKING_ZONE = 555;
 	
 	NewCarScan carNoRedisData = new NewCarScan(CAR_NO_REDIS_DATA, "1");
+	ParkingFine fineNoRedisData = new ParkingFine(CAR_NO_REDIS_DATA, "1");
 	
 	NewCarScan carNoAction = new NewCarScan(CAR_NO_ACTION, "1");
 	LastCarPayment carPaymentNoAction = new LastCarPayment(CAR_NO_ACTION, "1", "paid", LocalDateTime.now().plusHours(1));
@@ -53,7 +54,7 @@ class FinesAnalyzerServiceTest {
 	
 	NewCarScan carNewParkingZone = new NewCarScan(CAR_NEW_PARKING_ZONE, "2");
 	LastCarPayment lastPaymentNewZone = new LastCarPayment(CAR_NEW_PARKING_ZONE, "1", "paid", LocalDateTime.now().plusHours(1));
-	//ParkingFine fineNewParkingZone = new ParkingFine(CAR_NEW_PARKING_ZONE, "2");
+	ParkingFine fineNewParkingZone = new ParkingFine(CAR_NEW_PARKING_ZONE, "2");
 	
 	@BeforeEach
 	void redisMocking() throws Exception{
@@ -67,7 +68,7 @@ class FinesAnalyzerServiceTest {
 	@Test
 	void noRedisDataTest() {
 		LOG.debug("***TEST: no redis data test");
-		assertNull(service.processNewCarScan(carNoRedisData));
+		assertEquals(fineNoRedisData, service.processNewCarScan(carNoRedisData));
 	}
 	
 	@Test
@@ -91,7 +92,7 @@ class FinesAnalyzerServiceTest {
 	@Test
 	void newParkingZoneTest() {
 		LOG.debug("***TEST: parking zone was changed for car");
-		assertNull(service.processNewCarScan(carNewParkingZone));
+		assertEquals(fineNewParkingZone, service.processNewCarScan(carNewParkingZone));
 	} 
 
 }

@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 
+import jakarta.annotation.PreDestroy;
 import parking.monitoring.service.FinesAnalyzerService;
 
 @SpringBootApplication
@@ -41,6 +42,11 @@ public class FinesAnalyzerAppl {
 		} else {
 			LOG.debug("*fines-analyzer* recieved parking fine: NULL");
 		}
+	}
+	
+	@PreDestroy
+	void preDestroy() {
+		System.out.println("FinesAnalizerAppl - shutdown has been performed");
 	}
 
 }

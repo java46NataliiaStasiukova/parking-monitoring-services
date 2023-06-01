@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import jakarta.annotation.PreDestroy;
 import parking.monitoring.dto.ParkingZoneDto;
 import parking.monitoring.dto.ReportDto;
 import parking.monitoring.service.NotificationDataProvider;
@@ -97,5 +98,10 @@ public class ReportsNotifierAppl {
 					+ "{} was not found", report.carNumber);
 		}
 		return res;
+	}
+	
+	@PreDestroy
+	void preDestroy() {
+		System.out.println("ReportsNotifierAppl - shutdown has been performed");
 	}
 }
