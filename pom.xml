@@ -62,6 +62,12 @@
   			<artifactId>parking-monitoring-dto</artifactId>
   			<version>0.0.1</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>parking.exceptions</groupId>
+  			<artifactId>exceptions-handling</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

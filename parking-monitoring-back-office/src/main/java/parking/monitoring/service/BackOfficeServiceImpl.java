@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import parking.exceptions.NotFoundException;
 import parking.monitoring.dto.*;
 import parking.monitoring.entities.*;
 import parking.monitoring.proj.*;
@@ -44,13 +45,13 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 	public void addCar(CarDto car) {
 		if(carRepository.existsById(car.carNumber)) {
 			LOG.warn("*back-office* car with number: {} already exist", car.carNumber);
-			throw new IllegalStateException(String.format("Car with number: %s already exist",
+			throw new NotFoundException(String.format("Car with number: %s already exist",
 					car.carNumber));
 		}
 		Driver driver = driverRepository.findById(car.driverId).orElse(null);
 		if(driver == null) {
 			LOG.warn("*back-office* driver with id: {} not exist", car.driverId);
-			throw new IllegalStateException(String.format("Driver with id: %s doesn't exist",
+			throw new NotFoundException(String.format("Driver with id: %s doesn't exist",
 					car.driverId));
 		}
 		LOG.debug("*back-office* was added new car: {}", car.toString());
@@ -63,13 +64,13 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		Car car = carRepository.findById(report.carNumber).orElse(null);
 		if(car == null) {
 			LOG.warn("*back-office* car with number: {} not exist", report.carNumber);
-			throw new IllegalStateException(String.format("Car with number: %s doesn't exist",
+			throw new NotFoundException(String.format("Car with number: %s doesn't exist",
 					report.carNumber));
 		}
 		Driver driver = driverRepository.findById(report.driverId).orElse(null);
 		if(driver == null) {
 			LOG.warn("*back-office* driver with id: {} already exist", report.carNumber);
-			throw new IllegalStateException(String.format("Driver with id %s doesn't exist",
+			throw new NotFoundException(String.format("Driver with id %s doesn't exist",
 					report.driverId));
 		}
 		LOG.debug("*back-office* new report: {} was added", report.toString());
@@ -83,7 +84,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		Driver driver = driverRepository.findById(driverId).orElse(null);
 		if(driver == null) {
 			LOG.warn("*back-office* driver with id: {} not exist", driverId);
-		throw new IllegalStateException(String.format("Driver with id: %s doesn't exist",
+		throw new NotFoundException(String.format("Driver with id: %s doesn't exist",
 				driverId));
 		}
 		LOG.debug("*back-office* driver with id: {} was updated", driverId);
@@ -96,13 +97,13 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		Car car = carRepository.findById(carNumber).orElse(null);
 		if(car == null) {
 			LOG.warn("*back-office* car with number: {} not exist", carNumber);
-			throw new IllegalStateException(String.format("Car with number: %s doesn't exist",
+			throw new NotFoundException(String.format("Car with number: %s doesn't exist",
 					carNumber));
 		}
 		Driver driver = driverRepository.findById(driverId).orElse(null);
 		if(driver == null) {
 			LOG.warn("*back-office* driver with id: {} not exist", driverId);
-			throw new IllegalStateException(String.format("Driver with id: %s doesn't exist",
+			throw new NotFoundException(String.format("Driver with id: %s doesn't exist",
 					driverId));
 		}
 		LOG.debug("*back-office* car with number: {} was updated", carNumber);
@@ -115,7 +116,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		Report report = reportRepository.findById(reportId).orElse(null);
 		if(report == null) {
 			LOG.warn("*back-office* report with id: {} not exist", reportId);
-			throw new IllegalStateException(String.format("Report with id: %s doesn't exist",
+			throw new NotFoundException(String.format("Report with id: %s doesn't exist",
 					reportId));
 		}
 		LOG.debug("*back-office* report with id: {} was updated", reportId);
@@ -146,7 +147,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		Report report = reportRepository.findById(reportId).orElse(null);
 		if(report == null) {
 			LOG.warn("*back-office* report with id: {} not exist", reportId);
-			throw new IllegalStateException(String.format("Report with id: %s doesn't exist",
+			throw new NotFoundException(String.format("Report with id: %s doesn't exist",
 					reportId));
 		}
 		LOG.debug("*back-office* report with id: {} was deleted", reportId);
@@ -160,7 +161,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		Car car = carRepository.findById(carNumber).orElse(null);
 		if(car == null) {
 			LOG.warn("*back-office* car with number: {} not exist", carNumber);
-			throw new IllegalStateException(String.format("Car with number: %s doesn't exist",
+			throw new NotFoundException(String.format("Car with number: %s doesn't exist",
 					carNumber));
 		}
 		List<Report> reports = reportRepository.findReportByCarNumber(carNumber);
@@ -179,7 +180,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 		Driver driver = driverRepository.findById(driverId).orElse(null);
 		if(driver == null) {
 			LOG.warn("*back-office* driver with id: {} not exist", driverId);
-			throw new IllegalStateException(String.format("Driver with id: %s doesn't exist",
+			throw new NotFoundException(String.format("Driver with id: %s doesn't exist",
 					driverId));
 		}
 		Car car = carRepository.findCarByDriverId(driverId);
