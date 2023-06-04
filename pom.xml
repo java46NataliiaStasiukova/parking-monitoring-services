@@ -32,12 +32,11 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream-binder-kafka</artifactId>
 		</dependency>
-		<!-- 
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-config-client</artifactId>
 		</dependency>
-		-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -104,5 +103,6 @@
 		<module>parking-monitoring-payment-checker</module>
 		<module>parking-monitoring-garbage-collector</module>
 		<module>parking-monitoring-gateway</module>
+		<module>parking-monitoring-configuration-server</module>
 	</modules>
 </project>

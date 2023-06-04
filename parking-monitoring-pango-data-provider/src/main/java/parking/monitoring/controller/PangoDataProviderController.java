@@ -13,7 +13,7 @@ import parking.monitoring.service.PangoDataProviderService;
 
 
 @RestController
-@RequestMapping("paymentData")
+@RequestMapping("payment-data")
 public class PangoDataProviderController {
 
 	static Logger LOG = LoggerFactory.getLogger(PangoDataProviderController.class);

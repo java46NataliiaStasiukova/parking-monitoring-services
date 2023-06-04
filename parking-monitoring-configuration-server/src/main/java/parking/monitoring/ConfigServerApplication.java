@@ -2,22 +2,22 @@ package parking.monitoring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.cloud.config.server.EnableConfigServer;
 
 import jakarta.annotation.PreDestroy;
 
 @SpringBootApplication
-@ComponentScan(basePackages= {"zones"})
-public class ZonesBackOfficeAppl {
+@EnableConfigServer
+public class ConfigServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ZonesBackOfficeAppl.class, args);
+		SpringApplication.run(ConfigServerApplication.class, args);
 
 	}
 	
 	@PreDestroy
 	void preDestroy() {
-		System.out.println("ZonesBackOffice - shutdown has been performed");
+		System.out.println("ConfiServerAppl - shutdown has been performed");
 	}
 
 }

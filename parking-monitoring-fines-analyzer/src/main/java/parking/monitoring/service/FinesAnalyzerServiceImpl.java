@@ -26,7 +26,7 @@ public class FinesAnalyzerServiceImpl implements FinesAnalyzerService {
 	 LastCarPaymentRepository paymentRepository;
 	 @Autowired
 	 private RestTemplate restTemplate;
-	 @Value("${app.data.provider.mapping.url:paymentData}")
+	 @Value("${app.data.provider.mapping.url:payment-data}")
 	 String mappingUrl;
 	 @Value("${app.data.provider.host:localhost}")
 	 String host;
